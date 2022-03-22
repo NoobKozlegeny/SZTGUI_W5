@@ -1,4 +1,5 @@
 ﻿using Endpoint.Models;
+using Endpoint.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,22 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows;
+using System.Threading;
 
 namespace Kliens.ViewModel
 {
     public class MainWindowViewModel : ObservableRecipient
     {
+        private string errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set { SetProperty(ref errorMessage, value); }
+        }
+
         public RestCollection<Message> Messages { get; set; }
+        
         private Message selectedMessage;
 
         public Message SelectedMessage
@@ -31,13 +42,13 @@ namespace Kliens.ViewModel
                         SenderName = value.SenderName
                     };
                     OnPropertyChanged();
-                    (DeleteMessageCommand as RelayCommand).NotifyCanExecuteChanged();
+                    //(DeleteMessageCommand as RelayCommand).NotifyCanExecuteChanged();
                 }
             }
         }
 
         public ICommand CreateMessageCommand { get; set; }
-        public ICommand UpdateMessageCommand { get; set; }
+        public ICommand GetAllMessageCommand { get; set; }
         public ICommand DeleteMessageCommand { get; set; }
 
         public static bool IsInDesignMode
@@ -51,6 +62,8 @@ namespace Kliens.ViewModel
 
         public MainWindowViewModel()
         {
+            //Thread.Sleep(8000); 
+
             if (!IsInDesignMode)
             {
                 Messages = new RestCollection<Message>("http://localhost:14347/", "Message", "hub");
@@ -58,21 +71,20 @@ namespace Kliens.ViewModel
                 {
                     Messages.Add(new Message()
                     {
-                        SenderName = SelectedMessage.SenderName
+                        SenderName = SelectedMessage.SenderName,
+                        DTStamp = DateTime.Now,
+                        Msg = SelectedMessage.Msg
                     });
                 });
 
-                UpdateMessageCommand = new RelayCommand(() =>
+                GetAllMessageCommand = new RelayCommand(() =>
                 {
-                    try
+                    Messages.Add(new Message()
                     {
-                        Messages.Update(SelectedMessage);
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        
-                    }
-
+                        SenderName = SelectedMessage.SenderName,
+                        DTStamp = DateTime.Now,
+                        Msg = SelectedMessage.Msg
+                    });
                 });
 
                 //DeleteMessageCommand = new RelayCommand(() =>

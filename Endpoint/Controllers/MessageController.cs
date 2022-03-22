@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Endpoint.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -42,11 +42,11 @@ namespace Endpoint.Controllers
 
         // POST api/<MessageController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Message value)
         {
-            
-            msgLogic.Create(new Message{Msg = value.Split(';')[0], DTStamp = DateTime.Parse(value.Split(';')[1]), SenderName = value.Split(';')[2] });
-            hub.Clients.All.SendAsync("MovieCreated", value);
+            msgLogic.Create(value);
+            //msgLogic.Create(new Message{Msg = value.Split(';')[0], DTStamp = DateTime.Parse(value.Split(';')[1]), SenderName = value.Split(';')[2] });
+            hub.Clients.All.SendAsync("MessageCreated", value);
         }
 
         // PUT api/<MessageController>/5

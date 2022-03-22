@@ -18,7 +18,11 @@
         <ListBox ItemsSource="{Binding Messages}" SelectedItem="{Binding SelectedMessage}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding SenderName}" />
+                    <StackPanel>
+                        <Label Content="{Binding SenderName}" />
+                        <Label Content="{Binding DTStamp}" />
+                        <Label Content="{Binding Msg}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -28,8 +32,8 @@
             <Label Content="Message" Background="LightBlue" Padding="10" />
             <TextBox Text="{Binding SelectedMessage.Msg}" Padding="10" Margin="0,0,0,30" />
             <Button Content="Create Message" Command="{Binding CreateMessageCommand}" Margin="10" Padding="10" />
-            <Button Content="Delete Message" Command="{Binding DeleteMessageCommand}" Margin="10" Padding="10" />
-            <Button Content="Update Message" Command="{Binding UpdateMessageCommand}" Margin="10" Padding="10" />
+            <!--<Button Content="Delete Message" Command="{Binding DeleteMessageCommand}" Margin="10" Padding="10" />
+            <Button Content="Update Message" Command="{Binding UpdateMessageCommand}" Margin="10" Padding="10" />-->
             <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
         </StackPanel>
     </Grid>

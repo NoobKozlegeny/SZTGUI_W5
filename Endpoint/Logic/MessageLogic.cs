@@ -11,9 +11,14 @@ namespace Endpoint.Logic
     {
         ICollection<Message> chatDb;
 
+        public MessageLogic()
+        {
+            chatDb = new List<Message>();
+        }
         public void Create(Message msg)
         {
-            chatDb.Add(msg) ;
+            chatDb.Add(msg);
+            ;
         }
 
         public Message Get(DateTime timestamp, string sender)
