@@ -44,6 +44,9 @@ namespace Endpoint.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            
+            msgLogic.Create(new Message{Msg = value.Split(';')[0], DTStamp = DateTime.Parse(value.Split(';')[1]), SenderName = value.Split(';')[2] });
+            hub.Clients.All.SendAsync("MovieCreated", value);
         }
 
         // PUT api/<MessageController>/5
