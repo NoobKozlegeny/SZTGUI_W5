@@ -53,7 +53,7 @@ namespace Kliens.ViewModel
         {
             if (!IsInDesignMode)
             {
-                Messages = new RestCollection<Message>("http://localhost:53910/", "Message", "hub");
+                Messages = new RestCollection<Message>("http://localhost:14347/", "Message", "hub");
                 CreateMessageCommand = new RelayCommand(() =>
                 {
                     Messages.Add(new Message()
