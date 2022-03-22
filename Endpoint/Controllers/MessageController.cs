@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Endpoint.Logic;
+using Endpoint.Models;
+using Endpoint.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +16,28 @@ namespace Endpoint.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
+        IMessageLogic msgLogic;
+        IHubContext<SignalRHub> hub;
+
+        public MessageController(IMessageLogic msgLogic, IHubContext<SignalRHub> hub)
+        {
+            this.msgLogic = msgLogic;
+            this.hub = hub;
+        }
+
+
         // GET: api/<MessageController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Message> Get()
         {
-            return new string[] { "value1", "value2" };
+            return msgLogic.GetAll();
         }
 
         // GET api/<MessageController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{time}&{name}")]
+        public Message Get(string time, string name)
         {
-            return "value";
+            return msgLogic.Get(DateTime.Parse(time), name);
         }
 
         // POST api/<MessageController>

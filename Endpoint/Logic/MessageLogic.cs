@@ -20,5 +20,10 @@ namespace Endpoint.Logic
         {
             return chatDb.FirstOrDefault((x) => x.DTStamp == timestamp && x.SenderName == sender);
         }
+
+        public ICollection<Message> GetAll()
+        {
+            return chatDb;
+        }
     }
 }

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Endpoint.Logic
 {
-    interface IMessageLogic
+    public interface IMessageLogic
     {
         public void Create(Message msg);
         public Message Get(DateTime timestamp, string sender);
+        public ICollection<Message> GetAll();
 
     }
 }
